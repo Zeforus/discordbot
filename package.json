@@ -1,0 +1,22 @@
+{
+  "name": "discordbot",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zeforus/discordbot.git"
+  },
+  "author": "Zeforus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zeforus/discordbot/issues"
+  },
+  "homepage": "https://github.com/Zeforus/discordbot#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
+}
