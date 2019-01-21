@@ -1,34 +1,18 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const commands = require('./commands');
+const setup = require('./setup.js');
 
 var config = require("./config.json");
 module.exports.dclient = client;
 
-
-
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-
-  
-  client.guilds.forEach((guild) => {
-    //console.log("###################################################");
-    //console.log("Guild -- " + guild.name + ' - ' + guild.id);
-    // List all channels
-
     
-    guild.channels.forEach((channel) => {
-        //console.log(`Channel -- ${channel.name} (${channel.type}) - ${channel.id}`)
-    })
-
-    console.log("########### ROLES ########################");
-    guild.roles.forEach((role) => {
-        console.log(`Role ID -- ${role.id} (${role.name})`)
-    })
-    
-})
+    setup.showInfo(client);
+    setup.setupRoles(client);
 
 });
+
 
 client.on('message', (receivedMessage) => {
     // Prevent bot from responding to its own messages
@@ -37,10 +21,10 @@ client.on('message', (receivedMessage) => {
     }
 
     if (receivedMessage.content.startsWith("!")) {
-        if (receivedMessage.channel.id === config.rolesChannel) {
+        if (receivedMessage.channel.id === config.botCommandsChannel) {
             commands.processCommand(receivedMessage);
         } else {
-            receivedMessage.channel.send(`I only listen to commands sent directly to me or in the <#${config.rolesChannel}> channel.`);
+            receivedMessage.channel.send(`I only listen to commands sent directly to me or in the <#${config.botCommandsChannel}> channel.`);
         }
     }
 });
@@ -54,6 +38,17 @@ client.on("error", (err) => {
     console.log(err);
 });
 
+client.on("messageReactionAdd",  (reaction, user) => {
+    if(reaction.message.id === config.rolesTextId) {
+        console.log(user.roles)
+    }
+});
+
+client.on("messageReactionRemove",  (reaction, user) => {
+    if(reaction.message.id === config.rolesTextId) {
+        console.log("reached");
+    }
+});
 
 
 client.login(config.token);

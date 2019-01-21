@@ -1,5 +1,9 @@
 {
     "token": "",
+    "rocketLeague" : "536125787305410563",
     "checkInChannel": "536132798814093325",
-    "rolesChannel" : "536131978525802496"
+    "botCommandsChannel" : "536131978525802496",
+    "rolesTextId" : "537039796841742376",
+    "playerRole" : "536149624512315395",
+    "captainRole" : ""
 }
