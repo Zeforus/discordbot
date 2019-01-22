@@ -1,6 +1,6 @@
 
 const index = require('./index');
-var config = require("./config.json");
+const config = require("./config.json");
 
 const playerRole = '';
 
@@ -29,6 +29,40 @@ module.exports = {
             default:
                 break;
         }
+    },
+
+    roleReactionAdd: async function (client, memberId, roles) {
+        client.guilds.forEach((guild) => {
+            if(guild.id === config.serverId) {
+                guild.members.forEach((member) => {
+                    if(member.id === memberId) {
+                        member.addRoles(roles);
+                    }
+                })
+            }
+        })
+    return 1;
+    },
+
+    removeGameRoles: async function (client, memberId) {
+        client.guilds.forEach((guild) => {
+            if(guild.id === config.serverId) {
+                guild.members.forEach((member) => {
+                    if(member.id === memberId) {
+                        const array = [config.Player, config.Captain,
+                            config.NSW_ACT_Player, config.NSW_ACT_Captain, 
+                            config.New_South_Wales_Australian_Capital_Territory,
+                            config.SA_NT_Player, config.SA_NT_Captain,
+                            config.South_Australia_Northern_Territory,
+                            config.QLD_Player, config.QLD_Captain, config.Queensland,
+                            config.TAS_Player, config.TAS_Captain, config.Tasmania,
+                            config.VIC_Player, config.VIC_Captain, config.Victoria,
+                            config.WA_Player, config.WA_Captain, config.Western_Australia,];
+                        member.removeRoles(array);
+                    }
+                })
+            }
+        })
     }
 }
 
@@ -66,9 +100,12 @@ function deleteHistory() {
     });
     /*
     console.log(receivedMessage.channel.bulkDelete(100).then(messages => console.log(`Bulk deleted ${messages.size} messages`)).catch(console.error));
-    
+
     */
 }
+
+
+
 
 function state(state) {
     if(state === "vic") {
