@@ -1,12 +1,13 @@
 
 const index = require('./index');
-const config = require("./config.json");
+var config = require('./config.json');
+const setup = require("./setup")
 
 const playerRole = '';
 
 module.exports = {
     processCommand: function (receivedMessage) {
-        let fullCommand = receivedMessage.content.substr(1).toLowerCase(); // Remove the leading exclamation mark
+        let fullCommand = receivedMessage.content.substr(1); // Remove the leading exclamation mark
         let splitCommand = fullCommand.split(" "); // Split the message up in to pieces for each space
         let primaryCommand = splitCommand[0]; // The first word directly after the exclamation is the command
         let arguments = splitCommand.slice(1); // All other words are arguments/parameters/options for the command
@@ -15,54 +16,85 @@ module.exports = {
 
         switch(primaryCommand) {
             case 'help' :
-                helpCommand(arguments, receivedMessage);
+                //helpCommand(arguments, receivedMessage);
                 break;
             case 'getrole' :
-                getRole(arguments[0]);
+                //getRole(arguments[0]);
                 break;
             case 'delete' :
-                deleteHistory();
+                //deleteHistory();
                 break;
             case 'state' :
-                state(arguments[0]);
+                //state(arguments[0]);
                 break;
             default:
                 break;
         }
     },
 
-    roleReactionAdd: async function (client, memberId, roles) {
-        client.guilds.forEach((guild) => {
-            if(guild.id === config.serverId) {
-                guild.members.forEach((member) => {
-                    if(member.id === memberId) {
-                        member.addRoles(roles);
-                    }
-                })
-            }
-        })
-    return 1;
+    processAdminCommand: function (receivedMessage, client) {
+        let fullCommand = receivedMessage.content.substr(1); // Remove the leading exclamation mark
+        let splitCommand = fullCommand.split(" "); // Split the message up in to pieces for each space
+        let primaryCommand = splitCommand[0]; // The first word directly after the exclamation is the command
+        let arguments = splitCommand.slice(1); // All other words are arguments/parameters/options for the command
+
+        console.log(`${receivedMessage.author.username} entered command: ${primaryCommand}, Arguments:  ${fullCommand.substr(fullCommand.indexOf(" "))}  @ ${new Date()}`);
+
+        switch(primaryCommand) {
+            case 'delete' :
+                setup.deleteRoles(client, arguments[0]);
+                break;
+            case "del":
+                setup.deleteChannels(client, arguments[0]);
+                break;
+            case "react":
+                setup.setupRoleTextChannel(client, arguments[0]);
+                break;
+            case "category":
+                setup.setupCategoryChannels(client, arguments[0]);
+                break;
+            case "global":
+                setup.setupGlobalChannels(client,arguments[0]);
+            break;
+            case "channels":
+                setup.setupAdminChannels(client,arguments[0]);
+                setup.setupTeacherLoungeChannels(client,arguments[0]);
+                setup.setupCheckInChannels(client,arguments[0]);
+                setup.setupGameChannels(client,arguments[0]);
+                setup.setupOtherChannels(client,arguments[0]);
+                setup.setupVoiceChannels(client,arguments[0]);
+                break;
+            case "roles":
+                setup.createRoles(client, arguments[0]);
+                break;
+            case "update":
+                setup.update(client);
+                break;
+            default:
+                break;
+        }
     },
 
-    removeGameRoles: async function (client, memberId) {
-        client.guilds.forEach((guild) => {
-            if(guild.id === config.serverId) {
-                guild.members.forEach((member) => {
-                    if(member.id === memberId) {
-                        const array = [config.Player, config.Captain,
-                            config.NSW_ACT_Player, config.NSW_ACT_Captain, 
-                            config.New_South_Wales_Australian_Capital_Territory,
-                            config.SA_NT_Player, config.SA_NT_Captain,
-                            config.South_Australia_Northern_Territory,
-                            config.QLD_Player, config.QLD_Captain, config.Queensland,
-                            config.TAS_Player, config.TAS_Captain, config.Tasmania,
-                            config.VIC_Player, config.VIC_Captain, config.Victoria,
-                            config.WA_Player, config.WA_Captain, config.Western_Australia,];
-                        member.removeRoles(array);
-                    }
-                })
-            }
-        })
+
+    removeGameRoles: async function (client, reactionMessage, memberId) {
+        i = setup.findGuildId(reactionMessage.guild.id);
+
+        const array = [config.servers[i].Player, config.servers[i].Captain,
+        config.servers[i].NSWACTPlayer, config.servers[i].NSWACTCaptain, 
+        config.servers[i].NewSouthWalesAustralianCapitalTerritory,
+        config.servers[i].NZPlayer, config.servers[i].NZCaptain, 
+        config.servers[i].NewZealand, config.servers[i].SANTPlayer, 
+        config.servers[i].SANTCaptain, config.servers[i].SouthAustraliaNorthernTerritory,
+        config.servers[i].QLDPlayer, config.servers[i].QLDCaptain, 
+        config.servers[i].Queensland, config.servers[i].TASPlayer, 
+        config.servers[i].TASCaptain, config.servers[i].Tasmania,
+        config.servers[i].VICPlayer, config.servers[i].VICCaptain, 
+        config.servers[i].Victoria, config.servers[i].WAPlayer, 
+        config.servers[i].WACaptain, config.servers[i].WesternAustralia]
+
+        removeMember = client.guilds.find(guild => reactionMessage.guild.id = guild.id)
+            .members.find(member => member.id = memberId);
+        removeMember.removeRoles(array);
     }
 }
 
@@ -103,8 +135,6 @@ function deleteHistory() {
 
     */
 }
-
-
 
 
 function state(state) {
