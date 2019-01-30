@@ -38,34 +38,56 @@ module.exports = {
         let primaryCommand = splitCommand[0]; // The first word directly after the exclamation is the command
         let arguments = splitCommand.slice(1); // All other words are arguments/parameters/options for the command
 
-        console.log(`${receivedMessage.author.username} entered command: ${primaryCommand}, Arguments:  ${fullCommand.substr(fullCommand.indexOf(" "))}  @ ${new Date()}`);
+        //Error checking for missing server name
+        if(arguments.length === 0 && primaryCommand != "update") {
+            console.log(`Error: missing server name to process ${primaryCommand} command`);
+            return;
+        }
+
+        
+
+        console.log(`${receivedMessage.author.username} entered command: ${primaryCommand}, @ ${new Date()}`);
+        for(i = 0 ; i< arguments.length ; i++) {
+            console.log(arguments[i]);
+        }
+
+        let guild;
+        if(arguments[0]) {
+            guild = setup.findGuild(client, arguments[0]);
+            if(guild === undefined) {
+                console.log(`Unable to process command, ${arguments[0]} does not exist`)
+                return;
+            }
+            console.log(`Processing the command on guild: ${guild.name}, ID: ${guild.id}`)
+        }
 
         switch(primaryCommand) {
             case 'delete' :
-                setup.deleteRoles(client, arguments[0]);
+                setup.deleteRoles(client, guild);
                 break;
             case "del":
-                setup.deleteChannels(client, arguments[0]);
+                setup.deleteChannels(guild);
                 break;
             case "react":
-                setup.setupRoleTextChannel(client, arguments[0]);
+                setup.setupRoleTextChannel(guild);
                 break;
             case "category":
-                setup.setupCategoryChannels(client, arguments[0]);
+                setup.setupCategoryChannels(guild);
                 break;
             case "global":
-                setup.setupGlobalChannels(client,arguments[0]);
+                setup.setupGlobalChannels(guild);
             break;
             case "channels":
-                setup.setupAdminChannels(client,arguments[0]);
-                setup.setupTeacherLoungeChannels(client,arguments[0]);
-                setup.setupCheckInChannels(client,arguments[0]);
-                setup.setupGameChannels(client,arguments[0]);
-                setup.setupOtherChannels(client,arguments[0]);
-                setup.setupVoiceChannels(client,arguments[0]);
+                setup.setupAdminChannels(guild);
+                setup.setupTeacherLoungeChannels(guild);
+                setup.setupCheckInChannels(guild);
+                setup.setupGameDayChannels(guild);
+                setup.setupGameChannels(guild);
+                setup.setupOtherChannels(guild);
+                setup.setupVoiceChannels(guild);
                 break;
             case "roles":
-                setup.createRoles(client, arguments[0]);
+                setup.createRoles(guild);
                 break;
             case "update":
                 setup.update(client);
@@ -75,11 +97,35 @@ module.exports = {
         }
     },
 
+    removeReactions: async function(client, messageReaction, memberId, emoji) {
 
-    removeGameRoles: async function (client, reactionMessage, memberId) {
-        i = setup.findGuildId(reactionMessage.guild.id);
+        
+        messageReaction.reactions.forEach((value, key) => {
+            if(key === emoji) return;
+            value.fetchUsers().then(function(result) {
+  
 
-        const array = [config.servers[i].Player, config.servers[i].Captain,
+                if(result.length === 1) return;
+
+                results = result.find(user => user.id === memberId);
+                
+                if(results === null) return;
+
+                value.remove(results)
+
+             });
+        })
+
+        return await Promise.resolve();
+
+    },
+
+
+    removeGameRoles: async function (member) {
+
+
+        
+        var array = [config.servers[i].Player, config.servers[i].Captain,
         config.servers[i].NSWACTPlayer, config.servers[i].NSWACTCaptain, 
         config.servers[i].NewSouthWalesAustralianCapitalTerritory,
         config.servers[i].NZPlayer, config.servers[i].NZCaptain, 
@@ -92,9 +138,9 @@ module.exports = {
         config.servers[i].Victoria, config.servers[i].WAPlayer, 
         config.servers[i].WACaptain, config.servers[i].WesternAustralia]
 
-        removeMember = client.guilds.find(guild => reactionMessage.guild.id = guild.id)
-            .members.find(member => member.id = memberId);
-        removeMember.removeRoles(array);
+
+        await member.removeRoles(array);
+        return await Promise.resolve();
     }
 }
 
@@ -140,8 +186,7 @@ function deleteHistory() {
 function state(state) {
     if(state === "vic") {
         console.log(receivedMessage.member.displayName);
-        console.log(receivedMessage.member.username);
-        receivedMessage.member.setNickname("").then(function() {
+        console.log(receivedMessage.member.username).then(receivedMessage.member.setNickname("")).then(function() {
             receivedMessage.member.setNickname("VIC | " + receivedMessage.member.displayName)
         });
     }

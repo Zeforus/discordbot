@@ -4,13 +4,26 @@ const commands = require('./commands');
 const setup = require('./setup.js');
 const fs = require('fs');
 
-var config = require("./config.json");
+const config = require("./config.json");
+var reactions = [];
+
 module.exports.dclient = client;
 
 client.on('ready', () => {
+
+    setup.updateServer(client);
     setup.update(client);
-    setup.showInfo(client);
-    //setup.setupRoleTextChannel(client, "METARocketLeague")
+    //setup.showInfo(client);
+
+    
+    if(config.active === 1) {
+        client.guilds.forEach(guild =>{
+            console.log(`${guild.name} reaction listener turning on...`)
+            setup.setupRoleTextChannel(guild)
+        })
+    }
+
+    console.log("METABot is online")
 });
 
 
@@ -21,118 +34,230 @@ client.on('message', (receivedMessage) => {
     }
 
     if (receivedMessage.content.startsWith("!")) {
-        console.log(receivedMessage.author.id)
         if (receivedMessage.channel.id === config.botCommandsChannel) {
             commands.processCommand(receivedMessage);
         } else if (receivedMessage.author.id === config.serverAdminId) {
             commands.processAdminCommand(receivedMessage, client);
         } else {
-            receivedMessage.channel.send(`I only listen to commands sent directly to me or in the <#${config.botCommandsChannel}> channel.`);
+            //receivedMessage.channel.send(`I only listen to commands sent directly to me or in the <#${config.botCommandsChannel}> channel.`);
         }
     }
 });
 
 
 client.on("guildMemberAdd", (member) => {
-    member.send("`Welcome to META, please see/read #rules on how to join the server.`");
+    //member.send("`Welcome to META, please see/read #rules on how to join the server.`");
 });
 
 client.on("error", (err) => {
     console.log(err);
 });
 
-client.on("messageReactionAdd",  (reaction, user) => {
-    console.log("messageReacted")
-    
+client.on("messageReactionAdd", (reaction, user) => {
+
+    if (user === client.user || reaction.message.channel.name !== 'roles') {
+        return;
+    }
+
+
+
+    if (reactions.indexOf(user.id) > -1) {
+        reaction.remove(user);
+        return;
+    }
+
+    reactions.push(user.id);
+
+
+    let member = client
+        .guilds.find(guild => guild.id === reaction.message.guild.id)
+        .members.find(member => member.id === user.id)
+
+
+
+        
     i = setup.findGuildId(reaction.message.guild.id);
 
-    if(reaction.message.channel.name === 'roles') {
-        switch(reaction.emoji.name) {
-            case('🇦'):
-            commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].NSWACTPlayer, 
-                    config.servers[i].Player, config.servers[i].NewSouthWalesAustralianCapitalTerritory])).catch(console.error("Error NSW ACT P"));
+    async function f() {
+        let roles = []
+        switch (reaction.emoji.name) {
+            case ('🇦'):
+                roles = [config.servers[i].NSWACTPlayer, config.servers[i].Player
+                    , config.servers[i].NewSouthWalesAustralianCapitalTerritory]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇦')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+                
+                member.setNickname(`NSW-ACT | ${user.username}`).catch();;
+
                 break;
-            case('🇧'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].NSWACTCaptain, 
-                    config.servers[i].Captain, config.servers[i].NewSouthWalesAustralianCapitalTerritory])).catch(console.error("Error NSW ACT C"));
-            case('🇨'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].NZPlayer, 
-                    config.servers[i].Player, config.servers[i].NewZealand])).catch(console.error("Error NZ P"));
+            case ('🇧'):
+                roles = [config.servers[i].NSWACTCaptain, config.servers[i].Captain,
+                config.servers[i].NewSouthWalesAustralianCapitalTerritory]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇧')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`NSW-ACT | ${user.username}`).catch();
                 break;
-            case('🇩'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].NZCaptain, 
-                    config.servers[i].Captain, config.servers[i].NewZealand])).catch(console.error("Error NZ C"));
+            case ('🇨'):
+                roles = [config.servers[i].NZPlayer, config.servers[i].Player
+                    , config.servers[i].NewZealand]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇨')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`NZ | ${user.username}`).catch();
                 break;
-            case('🇪'): 
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].SANTPlayer, 
-                    config.servers[i].Player, config.servers[i].SouthAustraliaNorthernTerritory])).catch(console.error("Error SA NT P"));
+            case ('🇩'):
+                roles = [config.servers[i].NZCaptain,
+                config.servers[i].Captain, config.servers[i].NewZealand]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇩')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`NZ | ${user.username}`);
                 break;
-            case('🇫'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].SANTCaptain, 
-                    config.servers[i].Captain, config.servers[i].SouthAustraliaNorthernTerritory])).catch(console.error("Error SA NT C"));    
+            case ('🇪'):
+                roles = [config.servers[i].SANTPlayer,
+                config.servers[i].Player,
+                config.servers[i].SouthAustraliaNorthernTerritory]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇪')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`SA-NT | ${user.username}`);
                 break;
-            case('🇬'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].QLDPlayer, 
-                    config.servers[i].Player, config.servers[i].Queensland])).catch(console.error("Error QLD P"));
+            case ('🇫'):
+                roles = [config.servers[i].SANTCaptain,
+                config.servers[i].Captain,
+                config.servers[i].SouthAustraliaNorthernTerritory]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇫')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`SA-NT | ${user.username}`)
                 break;
-            case('🇭'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].QLDCaptain, 
-                    config.servers[i].Captain, config.servers[i].Queesland])).catch(console.error("Error QLD C"));
+            case ('🇬'):
+                roles = [config.servers[i].QLDPlayer,
+                config.servers[i].Player, config.servers[i].Queensland]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇬')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`QLD | ${user.username}`);
                 break;
-            case('🇮'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].TASPlayer, 
-                    config.servers[i].Player, config.servers[i].Tasmania])).catch(console.error("Error TAS P")); 
+            case ('🇭'):
+                roles = [config.servers[i].QLDCaptain,
+                config.servers[i].Captain, config.servers[i].Queesland]
+
+
+                commands.removeReactions(client, reaction.message, user.id, '🇭')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`QLD | ${user.username}`);
                 break;
-            case('🇯'): 
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].TASCaptain, 
-                    config.servers[i].Captain, config.servers[i].Tasmania])).catch(console.error("Error TAS C"));
+            case ('🇮'):
+                roles = [config.servers[i].TASPlayer,
+                config.servers[i].Player, config.servers[i].Tasmania]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇮')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`TAS | ${user.username}`);
                 break;
-            case('🇰'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].VICPlayer, 
-                    config.servers[i].Player, config.servers[i].Victoria])).catch(console.error("Error VIC P")); 
+            case ('🇯'):
+                roles = [config.servers[i].TASCaptain,
+                config.servers[i].Captain, config.servers[i].Tasmania]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇯')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`TAS | ${user.username}`);
                 break;
-            case('🇱'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].VICCaptain, 
-                    config.servers[i].Captain, config.servers[i].Victoria])).catch(console.error("Error VIC C")); 
+            case ('🇰'):
+                roles = [config.servers[i].VICPlayer,
+                config.servers[i].Player, config.servers[i].Victoria]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇰')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+
+                member.setNickname(`VIC | ${user.username}`);
                 break;
-            case('🇲'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].WAPlayer, 
-                    config.servers[i].Player, config.servers[i].WesternAustralia])).catch(console.error("Error WA P"));
+            case ('🇱'):
+                roles = [config.servers[i].VICCaptain,
+                config.servers[i].Captain, config.servers[i].Victoria]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇱')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+                member.setNickname(`VIC | ${user.username}`);
                 break;
-            case('🇳'):
-                commands.removeGameRoles(client, user.id).then(client.guilds.find(guild => guild.id = reaction.message.guild.id).members.find(member => member.id = reaction.message.member.id).addRoles([config.servers[i].WACaptain, 
-                    config.servers[i].Captain, config.servers[i].WesternAustralia])).catch(console.error("Error WA C")); 
-                break;                
+            case ('🇲'):
+                roles = [config.servers[i].WAPlayer,
+                config.servers[i].Player, config.servers[i].WesternAustralia]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇲')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+                member.setNickname(`WA | ${user.username}`);
+
+                break;
+            case ('🇳'):
+                roles = [config.servers[i].WACaptain,
+                config.servers[i].Captain, config.servers[i].WesternAustralia]
+
+                commands.removeReactions(client, reaction.message, user.id, '🇳')
+                commands.removeGameRoles(member).then(function () {
+                    member.addRoles(roles).catch(); //Catches roles already added
+                })
+                member.setNickname(`WA | ${user.username}`);
+                break;
             default:
                 break;
+
         }
-    }    
-    
-});
+        return Promise.resolve();
+        }
 
-client.on("messageReactionRemove",  (reaction, user) => {
-    console.log('reaction removed');
-    if(reaction.message.channel.name === 'roles') {
+        function g() {
+            f();
+            reactions.splice(reactions.indexOf(user.id),1)
+            return;
+        }
 
-        i = setup.findGuildId(reaction.message.guild.id);
+        setTimeout(g,1000);
 
-        const array = [config.servers[i].Player, config.servers[i].Captain,
-        config.servers[i].NSWACTPlayer, config.servers[i].NSWACTCaptain, 
-        config.servers[i].NewSouthWalesAustralianCapitalTerritory,
-        config.servers[i].NZPlayer, config.servers[i].NZCaptain, 
-        config.servers[i].NewZealand, config.servers[i].SANTPlayer, 
-        config.servers[i].SANTCaptain, config.servers[i].SouthAustraliaNorthernTerritory,
-        config.servers[i].QLDPlayer, config.servers[i].QLDCaptain, 
-        config.servers[i].Queensland, config.servers[i].TASPlayer, 
-        config.servers[i].TASCaptain, config.servers[i].Tasmania,
-        config.servers[i].VICPlayer, config.servers[i].VICCaptain, 
-        config.servers[i].Victoria, config.servers[i].WAPlayer, 
-        config.servers[i].WACaptain, config.servers[i].WesternAustralia]
+        
 
-        removeMember = client.guilds.find(guild => reaction.message.guild.id = guild.id)
-            .members.find(member => member.id = reaction.message.member.id);
-        removeMember.removeRoles(array).catch(console.error("Error Removing Game Roles"));
-    }
+    });
+
+client.on("messageReactionRemove", (reaction, user) => {
+
 });
 
 
