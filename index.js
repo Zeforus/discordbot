@@ -13,7 +13,7 @@ client.on('ready', () => {
 
     setup.updateServer(client);
     setup.update(client);
-    //setup.showInfo(client);
+    setup.showInfo(client);
 
     
     if(config.active === 1) {
@@ -59,14 +59,14 @@ client.on("messageReactionAdd", (reaction, user) => {
         return;
     }
 
-
-
     if (reactions.indexOf(user.id) > -1) {
         reaction.remove(user);
         return;
     }
 
+    commands.removeReactions(client, reaction.message, user.id, reaction.emoji.name)
     reactions.push(user.id);
+
 
 
     let member = client
@@ -85,10 +85,8 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].NSWACTPlayer, config.servers[i].Player
                     , config.servers[i].NewSouthWalesAustralianCapitalTerritory]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇦')
-                commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
-                })
+                
                 
                 member.setNickname(`NSW-ACT | ${user.username}`).catch();;
 
@@ -97,10 +95,10 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].NSWACTCaptain, config.servers[i].Captain,
                 config.servers[i].NewSouthWalesAustralianCapitalTerritory]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇧')
-                commands.removeGameRoles(member).then(function () {
+
+
                     member.addRoles(roles).catch(); //Catches roles already added
-                })
+
 
                 member.setNickname(`NSW-ACT | ${user.username}`).catch();
                 break;
@@ -108,7 +106,6 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].NZPlayer, config.servers[i].Player
                     , config.servers[i].NewZealand]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇨')
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -119,7 +116,6 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].NZCaptain,
                 config.servers[i].Captain, config.servers[i].NewZealand]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇩')
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -131,7 +127,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                 config.servers[i].Player,
                 config.servers[i].SouthAustraliaNorthernTerritory]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇪')
+
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -143,7 +139,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                 config.servers[i].Captain,
                 config.servers[i].SouthAustraliaNorthernTerritory]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇫')
+   
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -154,7 +150,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].QLDPlayer,
                 config.servers[i].Player, config.servers[i].Queensland]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇬')
+
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -166,7 +162,6 @@ client.on("messageReactionAdd", (reaction, user) => {
                 config.servers[i].Captain, config.servers[i].Queesland]
 
 
-                commands.removeReactions(client, reaction.message, user.id, '🇭')
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -177,7 +172,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].TASPlayer,
                 config.servers[i].Player, config.servers[i].Tasmania]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇮')
+
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -188,7 +183,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].TASCaptain,
                 config.servers[i].Captain, config.servers[i].Tasmania]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇯')
+
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -199,7 +194,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].VICPlayer,
                 config.servers[i].Player, config.servers[i].Victoria]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇰')
+
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -210,7 +205,6 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].VICCaptain,
                 config.servers[i].Captain, config.servers[i].Victoria]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇱')
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -220,7 +214,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].WAPlayer,
                 config.servers[i].Player, config.servers[i].WesternAustralia]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇲')
+
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -231,7 +225,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                 roles = [config.servers[i].WACaptain,
                 config.servers[i].Captain, config.servers[i].WesternAustralia]
 
-                commands.removeReactions(client, reaction.message, user.id, '🇳')
+
                 commands.removeGameRoles(member).then(function () {
                     member.addRoles(roles).catch(); //Catches roles already added
                 })
@@ -250,14 +244,27 @@ client.on("messageReactionAdd", (reaction, user) => {
             return;
         }
 
-        setTimeout(g,1000);
+        setTimeout(g,3000);
 
         
 
     });
 
 client.on("messageReactionRemove", (reaction, user) => {
+    console.log(user);
+    if (user === client.user || reaction.message.channel.name !== 'roles') {
+        return;
+    }
+    if (reactions.indexOf(user.id) > -1) {
+        return;
+    }
+    console.log("reached")
+    let member = client
+    .guilds.find(guild => guild.id === reaction.message.guild.id)
+    .members.find(member => member.id === user.id)
 
+    member.setNickname('').catch(console.error);
+    commands.removeGameRoles(member).catch(console.error);
 });
 
 
