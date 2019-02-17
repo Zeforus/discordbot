@@ -98,9 +98,9 @@ module.exports = {
     /*
      * DELETE FUNCTIONS
      */
-    deleteRoles: function (guild) {
+    deleteRoles: function (client, guild) {
         console.log(`Deleting Roles for Server: ${guild.name}`);
-        if (guild === null) return;
+        if (guild === null || guild === undefined) return;
 
         guild.roles.forEach(async (role) => {
             if (role.name !== client.user.username && role.name !== '@everyone') {

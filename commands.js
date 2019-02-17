@@ -62,7 +62,7 @@ module.exports = {
 
         switch(primaryCommand) {
             case 'delete' :
-                setup.deleteRoles(guild);
+                setup.deleteRoles(client, guild);
                 break;
             case "del":
                 setup.deleteChannels(guild);
