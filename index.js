@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const commands = require('./commands');
 const setup = require('./setup.js');
-var config = require("./config.json");
+const config = require("./config.json");
 const csetup = require('./setup.json')
 var reactions = [];
 

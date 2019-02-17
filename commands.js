@@ -2,8 +2,6 @@ const index = require('./index');
 const setup = require("./setup")
 const csetup = require("./setup.json")
 
-const playerRole = '';
-
 module.exports = {
     processCommand: function (receivedMessage) {
         let fullCommand = receivedMessage.content.substr(1); // Remove the leading exclamation mark
