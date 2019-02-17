@@ -1,0 +1,762 @@
+{
+	"channels": {
+		"Global": {
+			"default": {
+				"@everyone": {
+					"SEND_MESSAGES": false
+				}
+			},
+			"text": {
+				"welcome-and-rules": false,
+				"announcements": false,
+				"faq": false,
+				"links": false,
+				"roles": {
+					"@everyone": {
+						"ADD_REACTIONS": true,
+						"SEND_MESSAGES": false
+					}
+				},
+				"bot-commands": {
+					"@everyone": {
+						"VIEW_CHANNEL": false
+					}
+				}
+			}
+		},
+		"Production": {
+			"default": {
+				"@everyone": {
+					"VIEW_CHANNEL": false
+				},
+				"Admin": {
+					"VIEW_CHANNEL": true
+				},
+				"Broadcast": {
+					"VIEW_CHANNEL": true
+				}
+			},
+			"text": {
+				"admin-chat": false,
+				"production-chat": false
+			},
+			"voice": {
+				"admin-voice": false,
+				"broadcast": false
+			}
+		},
+		"NSW/ACT Region": {
+			"default": {
+				"@everyone": {
+					"VIEW_CHANNEL": false
+				},
+				"Admin": {
+					"VIEW_CHANNEL": true
+				},
+				"NSW/ACT Teacher": {
+					"VIEW_CHANNEL": true
+				},
+				"NSW/ACT Captain": {
+					"VIEW_CHANNEL": true
+				},
+				"NSW/ACT Player": {
+					"VIEW_CHANNEL": true,
+					"SEND_MESSAGES": false
+				}
+			},
+			"text": {
+				"nsw-act-admin-notes": {
+					"NSW/ACT Teacher": {
+						"VIEW_CHANNEL": false
+					},
+					"NSW/ACT Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"NSW/ACT Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"nsw-act-teacher-lounge": {
+					"NSW/ACT Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"NSW/ACT Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"nsw-act-check-in": false,
+				"nsw-act-match-reschedule": false,
+				"nsw-act-questions": {
+					"NSW/ACT Player": {
+						"VIEW_CHANNEL": true
+					}
+				},
+				"nsw-act-results": false
+			}
+		},
+		"NZ Region": {
+			"default": {
+				"@everyone": {
+					"VIEW_CHANNEL": false
+				},
+				"Admin": {
+					"VIEW_CHANNEL": true
+				},
+				"NZ Teacher": {
+					"VIEW_CHANNEL": true
+				},
+				"NZ Captain": {
+					"VIEW_CHANNEL": true
+				},
+				"NZ Player": {
+					"VIEW_CHANNEL": true,
+					"SEND_MESSAGES": false
+				}
+			},
+			"text": {
+				"nz-admin-notes": {
+					"NZ Teacher": {
+						"VIEW_CHANNEL": false
+					},
+					"NZ Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"NZ Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"nz-teacher-lounge": {
+					"NZ Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"NZ Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"nz-check-in": false,
+				"nz-match-reschedule": false,
+				"nz-questions": {
+					"NZ Player": {
+						"VIEW_CHANNEL": true
+					}
+				},
+				"nz-results": false
+			}
+		},
+		"SA/NT Region": {
+			"default": {
+				"@everyone": {
+					"VIEW_CHANNEL": false
+				},
+				"Admin": {
+					"VIEW_CHANNEL": true
+				},
+				"SA/NT Teacher": {
+					"VIEW_CHANNEL": true
+				},
+				"SA/NT Captain": {
+					"VIEW_CHANNEL": true
+				},
+				"SA/NT Player": {
+					"VIEW_CHANNEL": true,
+					"SEND_MESSAGES": false
+				}
+			},
+			"text": {
+				"sa-nt-admin-notes": {
+					"SA/NT Teacher": {
+						"VIEW_CHANNEL": false
+					},
+					"SA/NT Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"SA/NT Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"sa-nt-teacher-lounge": {
+					"SA/NT Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"SA/NT Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"sa-nt-check-in": false,
+				"sa-nt-match-reschedule": false,
+				"sa-nt-questions": {
+					"SA/NT Player": {
+						"VIEW_CHANNEL": true
+					}
+				},
+				"sa-nt-results": false
+			}
+		},
+		"QLD Region": {
+			"default": {
+				"@everyone": {
+					"VIEW_CHANNEL": false
+				},
+				"Admin": {
+					"VIEW_CHANNEL": true
+				},
+				"QLD Teacher": {
+					"VIEW_CHANNEL": true
+				},
+				"QLD Captain": {
+					"VIEW_CHANNEL": true
+				},
+				"QLD Player": {
+					"VIEW_CHANNEL": true,
+					"SEND_MESSAGES": false
+				}
+			},
+			"text": {
+				"qld-admin-notes": {
+					"QLD Teacher": {
+						"VIEW_CHANNEL": false
+					},
+					"QLD Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"QLD Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"qld-teacher-lounge": {
+					"QLD Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"QLD Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"qld-check-in": false,
+				"qld-match-reschedule": false,
+				"qld-questions": {
+					"QLD Player": {
+						"VIEW_CHANNEL": true
+					}
+				},
+				"qld-results": false
+			}
+		},
+		"TAS Region": {
+			"default": {
+				"@everyone": {
+					"VIEW_CHANNEL": false
+				},
+				"Admin": {
+					"VIEW_CHANNEL": true
+				},
+				"TAS Teacher": {
+					"VIEW_CHANNEL": true
+				},
+				"TAS Captain": {
+					"VIEW_CHANNEL": true
+				},
+				"TAS Player": {
+					"VIEW_CHANNEL": true,
+					"SEND_MESSAGES": false
+				}
+			},
+			"text": {
+				"tas-admin-notes": {
+					"TAS Teacher": {
+						"VIEW_CHANNEL": false
+					},
+					"TAS Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"TAS Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"tas-teacher-lounge": {
+					"TAS Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"TAS Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"tas-check-in": false,
+				"tas-match-reschedule": false,
+				"tas-questions": {
+					"TAS Player": {
+						"VIEW_CHANNEL": true
+					}
+				},
+				"tas-results": false
+			}
+		},
+		"VIC Region": {
+			"default": {
+				"@everyone": {
+					"VIEW_CHANNEL": false
+				},
+				"Admin": {
+					"VIEW_CHANNEL": true
+				},
+				"VIC Teacher": {
+					"VIEW_CHANNEL": true
+				},
+				"VIC Captain": {
+					"VIEW_CHANNEL": true
+				},
+				"VIC Player": {
+					"VIEW_CHANNEL": true,
+					"SEND_MESSAGES": false
+				}
+			},
+			"text": {
+				"vic-admin-notes": {
+					"VIC Teacher": {
+						"VIEW_CHANNEL": false
+					},
+					"VIC Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"VIC Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"vic-teacher-lounge": {
+					"VIC Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"VIC Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"vic-check-in": false,
+				"vic-match-reschedule": false,
+				"vic-questions": {
+					"VIC Player": {
+						"VIEW_CHANNEL": true
+					}
+				},
+				"vic-results": false
+			}
+		},
+		"WA Region": {
+			"default": {
+				"@everyone": {
+					"VIEW_CHANNEL": false
+				},
+				"Admin": {
+					"VIEW_CHANNEL": true
+				},
+				"WA Teacher": {
+					"VIEW_CHANNEL": true
+				},
+				"WA Captain": {
+					"VIEW_CHANNEL": true
+				},
+				"WA Player": {
+					"VIEW_CHANNEL": true,
+					"SEND_MESSAGES": false
+				}
+			},
+			"text": {
+				"wa-admin-notes": {
+					"WA Teacher": {
+						"VIEW_CHANNEL": false
+					},
+					"WA Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"WA Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"wa-teacher-lounge": {
+					"WA Captain": {
+						"VIEW_CHANNEL": false
+					},
+					"WA Player": {
+						"VIEW_CHANNEL": false
+					}
+				},
+				"wa-check-in": false,
+				"wa-match-reschedule": false,
+				"wa-questions": {
+					"WA Player": {
+						"VIEW_CHANNEL": true
+					}
+				},
+				"wa-results": false
+			}
+		},
+		"Game Day": {
+			"default": false,
+			"text": {
+				"general-chat": false,
+				"rules-discussion": false,
+				"highlight-plays": false,
+				"streamed-game": false,
+				"looking-for-scrim": false
+			}
+		},
+		"Voice Channels": {
+			"default": {
+				"@everyone": {
+					"VIEW_CHANNEL": false
+				},
+				"Admin": {
+					"VIEW_CHANNEL": true
+				}
+			},
+			"voice": {
+				"waiting-for-help": {
+					"@everyone": true
+				},
+				"help-channel-one": false,
+				"help-channel-two": false,
+				"help-channel-three": false,
+				"help-channel-four": false
+			}
+		}
+	},
+	"roles": {
+		"@everyone": {
+			"defaultColor": "BLUE",
+			"permissions": [
+				"SEND_MESSAGES",
+				"VIEW_CHANNEL",
+				"READ_MESSAGE_HISTORY",
+				"CONNECT",
+				"SPEAK",
+				"CHANGE_NICKNAME",
+				"USE_VAD",
+				"EMBED_LINKS",
+				"CREATE_INSTANT_INVITE"
+			]
+		},
+		"League Commissioner": {
+			"setHoist": true,
+			"color": "RED",
+			"permissions": [
+				"ADMINISTRATOR"
+			]
+		},
+		"Admin": {
+			"setHoist": true,
+			"color": "RED",
+			"permissions": [
+				"KICK_MEMBERS",
+				"MOVE_MEMBERS",
+				"MANAGE_NICKNAMES",
+				"BAN_MEMBERS",
+				"MANAGE_MESSAGES",
+				"MENTION_EVERYONE"
+			]
+		},
+		"Broadcast": {
+			"setHoist": true,
+			"color": "RED",
+			"permissions": [
+				"KICK_MEMBERS",
+				"MOVE_MEMBERS",
+				"MANAGE_NICKNAMES",
+				"BAN_MEMBERS",
+				"MANAGE_MESSAGES",
+				"MENTION_EVERYONE"
+			]
+		},
+		"Teacher": {
+			"setHoist": true,
+			"color": "f1c40f"
+		},
+		"NSW/ACT Teacher": {
+			"color": "f1c40f"
+		},
+		"NZ Teacher": {
+			"color": "f1c40f"
+		},
+		"SA/NT Teacher": {
+			"color": "f1c40f"
+		},
+		"QLD Teacher": {
+			"color": "f1c40f"
+		},
+		"TAS Teacher": {
+			"color": "f1c40f"
+		},
+		"VIC Teacher": {
+			"color": "f1c40f"
+		},
+		"WA Teacher": {
+			"color": "f1c40f"
+		},
+		"Player": {
+			"setHoist": true
+		},
+		"Captain": {
+			"setHoist": true
+		},
+		"NSW/ACT Player": false,
+		"NSW/ACT Captain": false,
+		"NZ Player": false,
+		"NZ Captain": false,
+		"SA/NT Player": false,
+		"SA/NT Captain": false,
+		"QLD Player": false,
+		"QLD Captain": false,
+		"TAS Player": false,
+		"TAS Captain": false,
+		"VIC Player": false,
+		"VIC Captain": false,
+		"WA Player": false,
+		"WA Captain": false,
+		"New South Wales / Australian Capital Territory": false,
+		"New Zealand": false,
+		"South Australia / Northern Territory": false,
+		"Queensland": false,
+		"Tasmania": false,
+		"Victoria": false,
+		"Western Australia": false
+	},
+	"reaction": {
+    "channelName": "roles",
+    "messages": {
+      "player": {
+        "message": "**Click the icon related to your role, it grants you access to main channels in rare cases @MetaBot is offline it means you will be unable to gain access to other channels.** \n\nNSW-ACT Player \t:regional_indicator_a:  NSW-ACT Captain \t:regional_indicator_b:\nNZ Player               \t:regional_indicator_c:  NZ Captain               \t:regional_indicator_d: \nSA-NT Player        \t:regional_indicator_e:  SA-NT Captain        \t:regional_indicator_f: \nQLD Player        \t\t:regional_indicator_g:  QLD Captain        \t\t:regional_indicator_h: \nTAS Player         \t\t:regional_indicator_i:  TAS Captain        \t\t:regional_indicator_j: \nVIC Player          \t\t:regional_indicator_k:  VIC Captain         \t\t:regional_indicator_l: \nWA Player             \t:regional_indicator_m:  WA Captain             \t:regional_indicator_n: \n",
+        "reactions": [
+          "🇦",
+          "🇧",
+          "🇨",
+          "🇩",
+          "🇪",
+          "🇫",
+          "🇬",
+          "🇭",
+          "🇮",
+          "🇯",
+          "🇰",
+          "🇱",
+          "🇲",
+          "🇳"
+        ]
+      },
+      "teacher": {
+        "message": 
+					"For Teachers click the icons below for your roles.\n\nNSW Teacher\t\t:regional_indicator_o:\nNZ Teacher\t\t\t:regional_indicator_p:\nSA-NT Teacher \t:regional_indicator_q:\nQLD Teacher \t\t:regional_indicator_s:\nTAS Teacher \t\t:regional_indicator_r:\nVIC Teacher\t\t  :regional_indicator_t:\nWA Teacher  \t\t:regional_indicator_u:",
+        
+        "reactions": [
+          "🇴",
+          "🇵",
+          "🇶",
+          "🇷",
+          "🇸",
+          "🇹",
+          "🇺"
+        ]
+      }
+    },
+    "roleAssign": {
+      "🇦": {
+        "nickname": "NSW-ACT | ",
+        "roles": [
+          "Player",
+          "NSW/ACT Player",
+          "New South Wales / Australian Capital Territory"
+        ]
+      },
+      "🇧": {
+        "nickname": "NSW-ACT | ",
+        "roles": [
+          "Captain",
+          "NSW/ACT Captain",
+          "New South Wales / Australian Capital Territory"
+        ]
+      },
+      "🇨": {
+        "nickname": "NZ | ",
+        "roles": [
+          "Player",
+          "NZ Player",
+          "New Zealand"
+        ]
+      },
+      "🇩": {
+        "nickname": "NZ | ",
+        "roles": [
+          "Captain",
+          "NZ Captain",
+          "New Zealand"
+        ]
+      },
+      "🇪": {
+        "nickname": "SA-NT | ",
+        "roles": [
+          "Player",
+          "SA/NT Player",
+          "South Australia / Northern Territory"
+        ]
+      },
+      "🇫": {
+        "nickname": "SA-NT | ",
+        "roles": [
+          "Captain",
+          "SA/NT Captain",
+          "South Australia / Northern Territory"
+        ]
+      },
+      "🇬": {
+        "nickname": "QLD | ",
+        "roles": [
+          "Player",
+          "QLD Player",
+          "Queensland"
+        ]
+      },
+      "🇭": {
+        "nickname": "QLD | ",
+        "roles": [
+          "Captain",
+          "QLD Captain",
+          "Queensland"
+        ]
+      },
+      "🇮": {
+        "nickname": "TAS | ",
+        "roles": [
+          "Player",
+          "TAS Player",
+          "Tasmania"
+        ]
+      },
+      "🇯": {
+        "nickname": "TAS | ",
+        "roles": [
+          "Captain",
+          "TAS Captain",
+          "Tasmania"
+        ]
+      },
+      "🇰": {
+        "nickname": "VIC | ",
+        "roles": [
+          "Player",
+          "VIC Player",
+          "Victoria"
+        ]
+      },
+      "🇱": {
+        "nickname": "VIC | ",
+        "roles": [
+          "Captain",
+          "VIC Captain",
+          "Victoria"
+        ]
+      },
+      "🇲": {
+        "nickname": "WA | ",
+        "roles": [
+          "Player",
+          "WA Player",
+          "Western Australia"
+        ]
+      },
+      "🇳": {
+        "nickname": "WA | ",
+        "roles": [
+          "Captain",
+          "WA Captain",
+          "Western Australia"
+        ]
+      },
+      "🇴": {
+        "nickname": "NSW | ",
+        "roles": [
+          "Teacher",
+          "NSW/ACT Teacher",
+          "New South Wales / Australian Capital Territory"
+        ]
+      },
+      "🇵": {
+        "nickname": "NZ | ",
+        "roles": [
+          "Teacher",
+          "NZ Teacher",
+          "New Zealand"
+        ]
+      },
+      "🇶": {
+        "nickname": "SA-NT | ",
+        "roles": [
+          "Teacher",
+          "SA/NT Teacher",
+          "South Australia / Northern Territory"
+        ]
+      },
+      "🇷": {
+        "nickname": "QLD | ",
+        "roles": [
+          "Teacher",
+          "QLD Teacher",
+          "Queensland"
+        ]
+      },
+      "🇸": {
+        "nickname": "TAS | ",
+        "roles": [
+          "Teacher",
+          "TAS Teacher",
+          "Tasmania"
+        ]
+      },
+      "🇹": {
+        "nickname": "VIC | ",
+        "roles": [
+          "Teacher",
+          "VIC Teacher",
+          "Victoria"
+        ]
+      },
+      "🇺": {
+        "nickname": "WA | ",
+        "roles": [
+          "Teacher",
+          "WA Teacher",
+          "Western Australia"
+        ]
+      }
+    },
+    "removeRoles": [
+      "Player",
+      "Captain",
+      "NSW/ACT Player",
+      "NSW/ACT Captain",
+      "NZ Player",
+      "NZ Captain",
+      "SA/NT Player",
+      "SA/NT Captain",
+      "QLD Player",
+      "QLD Captain",
+      "TAS Player",
+      "TAS Captain",
+      "VIC Player",
+      "VIC Captain",
+      "WA Player",
+      "WA Captain",
+      "New South Wales / Australian Capital Territory",
+      "New Zealand",
+      "South Australia / Northern Territory",
+      "Queensland",
+      "Tasmania",
+      "Victoria",
+      "Western Australia",
+      "Teacher",
+      "NSW/ACT Teacher",
+      "NZ Teacher",
+      "SA/NT Teacher",
+      "QLD Teacher",
+      "TAS Teacher",
+      "VIC Teacher",
+      "WA Teacher"
+    ]
+    
+	}
+}

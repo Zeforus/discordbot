@@ -1,7 +1,6 @@
-
 const index = require('./index');
-var config = require('./config.json');
 const setup = require("./setup")
+const csetup = require("./setup.json")
 
 const playerRole = '';
 
@@ -39,58 +38,43 @@ module.exports = {
         let arguments = splitCommand.slice(1); // All other words are arguments/parameters/options for the command
 
         //Error checking for missing server name
-        if(arguments.length === 0 && primaryCommand != "update") {
+        if(arguments.length === 0) {
             console.log(`Error: missing server name to process ${primaryCommand} command`);
             return;
         }
 
-        
-
+        //Print out who actioned a command
         console.log(`${receivedMessage.author.username} entered command: ${primaryCommand}, @ ${new Date()}`);
-        for(i = 0 ; i< arguments.length ; i++) {
-            console.log(arguments[i]);
-        }
 
-        let guild;
+        //Print all the additional arguments after the command
+        for(i = 0 ; i< arguments.length ; i++) console.log(arguments[i]);
+        
+        //The first argument is always the server to action the command on
+        let guild
         if(arguments[0]) {
-            guild = setup.findGuild(client, arguments[0]);
-            if(guild === undefined) {
+            guild = client.guilds.find(guild => guild.name.replace(/[^0-9a-zA-Z]/g, '') === arguments[0])
+
+            if(guild === null) {
                 console.log(`Unable to process command, ${arguments[0]} does not exist`)
                 return;
             }
-            console.log(`Processing the command on guild: ${guild.name}, ID: ${guild.id}`)
         }
 
         switch(primaryCommand) {
             case 'delete' :
-                setup.deleteRoles(client, guild);
+                setup.deleteRoles(guild);
                 break;
             case "del":
                 setup.deleteChannels(guild);
                 break;
             case "react":
-                setup.setupRoleTextChannel(guild);
+                setup.createReaction(guild);
                 break;
-            case "category":
-                setup.setupCategoryChannels(guild);
-                break;
-            case "global":
-                setup.setupGlobalChannels(guild);
-            break;
-            case "channels":
-                setup.setupAdminChannels(guild);
-                setup.setupTeacherLoungeChannels(guild);
-                setup.setupCheckInChannels(guild);
-                setup.setupGameDayChannels(guild);
-                setup.setupGameChannels(guild);
-                setup.setupOtherChannels(guild);
-                setup.setupVoiceChannels(guild);
+            case "setup":
+                setup.createServer(guild);
                 break;
             case "roles":
                 setup.createRoles(guild);
-                break;
-            case "update":
-                setup.update(client);
                 break;
             default:
                 break;
@@ -121,76 +105,25 @@ module.exports = {
     },
 
 
-    removeGameRoles: async function (member) {
+    removeGameRoles: function (guild, member) {
 
 
         
-        var array = [config.servers[i].Player, config.servers[i].Captain,
-        config.servers[i].NSWACTPlayer, config.servers[i].NSWACTCaptain, 
-        config.servers[i].NewSouthWalesAustralianCapitalTerritory,
-        config.servers[i].NZPlayer, config.servers[i].NZCaptain, 
-        config.servers[i].NewZealand, config.servers[i].SANTPlayer, 
-        config.servers[i].SANTCaptain, config.servers[i].SouthAustraliaNorthernTerritory,
-        config.servers[i].QLDPlayer, config.servers[i].QLDCaptain, 
-        config.servers[i].Queensland, config.servers[i].TASPlayer, 
-        config.servers[i].TASCaptain, config.servers[i].Tasmania,
-        config.servers[i].VICPlayer, config.servers[i].VICCaptain, 
-        config.servers[i].Victoria, config.servers[i].WAPlayer, 
-        config.servers[i].WACaptain, config.servers[i].WesternAustralia]
+        array = csetup.reaction.removeRoles;
+        roles = []
 
+        for(let i = 0; i < array.length; i++) {
 
-        await member.removeRoles(array);
-        return await Promise.resolve();
+            role = guild.roles.find(role => role.name == array[i]);
+
+            if(role === null) return;
+
+            roles.push(role)
+        }
+        member.removeRoles(roles)
     }
 }
 
-function getRole(role) {
-    if (role === "player") {
-        receivedMessage.member.removeRoles(receivedMessage.member.roles).then (function() {
-            receivedMessage.member.addRole(config.playerRole);
-        });      
-    } else if (role === "captain") {
-        receivedMessage.member.removeRoles(receivedMessage.member.roles).then (function() {
-            receivedMessage.member.addRole(config.captainRole);
-        });  
-    } else {
-        receivedMessage.channel.send("You did not ask for an existing role. Try `!help`")
-    }
-}
-
-function deleteHistory() {
-    // Create a message collector
-    const filter = m => m.content;
-    const collector = receivedMessage.channel.createMessageCollector(filter, { time: 10000 });
-    collector.on('collect', m => console.log(`Collected ${m.content}`));
-    collector.on('end', collected => console.log(`Collected ${collected.size} items`));
-
-
-    receivedMessage.channel.fetchMessages({ 
-        limit: 50 // Fetch last 50 messages.
-    }).then((msgCollection) => { // Resolve promise
-        msgCollection.forEach((msg) => { // forEach on message collection
-            //console.log(msg.createdTimestamp)
-            //var v = new Date();
-            //console.log(v.getDate());
-            msg.delete(); // Delete each message
-        })
-    });
-    /*
-    console.log(receivedMessage.channel.bulkDelete(100).then(messages => console.log(`Bulk deleted ${messages.size} messages`)).catch(console.error));
-
-    */
-}
-
-
-function state(state) {
-    if(state === "vic") {
-        console.log(receivedMessage.member.displayName);
-        console.log(receivedMessage.member.username).then(receivedMessage.member.setNickname("")).then(function() {
-            receivedMessage.member.setNickname("VIC | " + receivedMessage.member.displayName)
-        });
-    }
-}
 
 function helpCommand(arguments, receivedMessage) {
     let command = arguments[0];
